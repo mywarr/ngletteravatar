@@ -9,18 +9,35 @@
 var nla = angular.module('ngLetterAvatar', []);
 
 nla.constant('defaultSettings', {
-    alphabetcolors: ["#5A8770", "#B2B7BB", "#6FA9AB", "#F5AF29", "#0088B9", "#F18636", "#D93A37", "#A6B12E", "#5C9BBC", "#F5888D", "#9A89B5", "#407887", "#9A89B5", "#5A8770", "#D33F33", "#A2B01F", "#F0B126", "#0087BF", "#F18636", "#0087BF", "#B2B7BB", "#72ACAE", "#9C8AB4", "#5A8770", "#EEB424", "#407887"],
-    textColor: '#ffffff',
-    defaultBorder: 'border:5px solid white',
-    triangleup: 'width: 0;height: 0;border-left: 50px solid transparent;border-right: 50px solid transparent;border-bottom: 100px solid;',
-    fontsize: 30, // unit in pixels
-    height: 50, // unit in pixels
-    width: 50, // unit in pixels
-    fontWeight: 400, //
-    charCount: 1,
-    fontFamily: 'HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
-    base: 'data:image/svg+xml;base64,',
-    radius: 'border-radius:50%;'
+ alphabetcolors: [
+  "#f44336",
+  "#e91e63",
+  "#9c27b0",
+  "#673ab7",
+  "#3f51b5",
+  "#2196f3",
+  "#03a9f4",
+  "#00bcd4",
+  "#009688",
+  "#4caf50",
+  "#8bc34a",
+  "#cddc39",
+  "#ffeb3b",
+  "#ffc107",
+  "#ff9800",
+  "#ff5722"
+ ],
+ textColor: '#ffffff',
+ defaultBorder: 'border:5px solid white',
+ triangleup: 'width: 0;height: 0;border-left: 50px solid transparent;border-right: 50px solid transparent;border-bottom: 100px solid;',
+ fontsize: 30, // unit in pixels
+ height: 50, // unit in pixels
+ width: 50, // unit in pixels
+ fontWeight: 400, //
+ charCount: 1,
+ fontFamily: 'Noto Sans TC,STHeitiTC-Light,HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica, Arial,Lucida Grande, sans-serif',
+ base: 'data:image/svg+xml;base64,',
+ radius: 'border-radius:50%;'
 
 });
 
@@ -29,114 +46,147 @@ nla.constant('defaultSettings', {
  * @param {type} param1
  * @param {type} param2
  */
-nla.directive('ngLetterAvatar', ['defaultSettings', function (defaultSettings) {
-        return {
-            restrict: 'AE',
-            replace: true,
-            scope: {
-                alphabetcolors: '=alphabetcolors'
-            },
-            link: function (scope, element, attrs) {
+nla.directive('ngLetterAvatar', ['defaultSettings', function(defaultSettings) {
+ return {
+  restrict: 'AE',
+  replace: true,
+  scope: {
+   alphabetcolors: '=alphabetcolors'
+  },
+  link: function(scope, element, attrs) {
 
-                /**
-                 * Populate the attribute values to params object
-                 * @type type
-                 */
-                var params = {
-                    charCount: attrs.charcount || defaultSettings.charCount,
-                    data: attrs.data,
-                    textColor: defaultSettings.textColor,
-                    height: attrs.height || defaultSettings.height,
-                    width: attrs.width || defaultSettings.width,
-                    fontsize: attrs.fontsize || defaultSettings.fontsize,
-                    fontWeight: attrs.fontweight || defaultSettings.fontWeight,
-                    fontFamily: attrs.fontfamily || defaultSettings.fontFamily,
-                    avatarBorderStyle: attrs.avatarcustomborder,
-                    avatardefaultBorder: attrs.avatarborder,
-                    defaultBorder: defaultSettings.defaultBorder,
-                    shape: attrs.shape,
-                    alphabetcolors: scope.alphabetcolors || defaultSettings.alphabetcolors
-                };
-                var c ='';
-                if (params.charCount == 2) {
-                    var _data = getFirstAndLastName(params.data.toUpperCase());
-                    if(_data){
-                        c = _data;
-                    }else{
-                        c = params.data.substr(0, params.charCount).toUpperCase();
-                    }
-                } else {
-                    c = params.data.substr(0, params.charCount).toUpperCase();
-                }
-                var cobj = getCharacterObject(c, params.textColor, params.fontFamily, params.fontWeight, params.fontsize);
-                var colorIndex = '';
-                var color = '';
+   /**
+    * Populate the attribute values to params object
+    * @type type
+    */
+   var params = {
+    charCount: attrs.charcount || defaultSettings.charCount,
+    data: attrs.data,
+    textColor: defaultSettings.textColor,
+    height: attrs.height || defaultSettings.height,
+    width: attrs.width || defaultSettings.width,
+    fontsize: attrs.fontsize || defaultSettings.fontsize,
+    fontWeight: attrs.fontweight || defaultSettings.fontWeight,
+    fontFamily: attrs.fontfamily || defaultSettings.fontFamily,
+    avatarBorderStyle: attrs.avatarcustomborder,
+    avatardefaultBorder: attrs.avatarborder,
+    defaultBorder: defaultSettings.defaultBorder,
+    shape: attrs.shape,
+    alphabetcolors: scope.alphabetcolors || defaultSettings.alphabetcolors
+   };
+   var c = '';
+   if (params.charCount == 2) {
+    var _data = getFirstAndLastName(params.data.toUpperCase());
+    if (_data) {
+     c = _data;
+    } else {
+     c = params.data.substr(0, params.charCount).toUpperCase();
+    }
+   } else {
+    c = params.data.substr(0, params.charCount).toUpperCase();
+   }
+   var cobj = getCharacterObject(c, params.textColor, params.fontFamily, params.fontWeight, params.fontsize);
+   var colorIndex = '';
+   var color = '';
 
-                /**
-                 * Populete the colors according to attributes
-                 */
-                if (c.charCodeAt(0) < 65) {
-                    color = getRandomColors();
-                } else {
-                    colorIndex = Math.floor((c.charCodeAt(0) - 65) % params.alphabetcolors.length);
-                    color = params.alphabetcolors[colorIndex];
-                }
+   /**
+    * Populete the colors according to attributes
+    */
+   if (c.charCodeAt(0) < 65) {
+    color = getRandomColors();
+   } else {
+    colorIndex = Math.floor((c.charCodeAt(0) - 65) % params.alphabetcolors.length);
+    color = params.alphabetcolors[colorIndex];
+   }
 
-                var svg = getImgTag(params.width, params.height, color);
-                svg.append(cobj);
-                var lvcomponent = angular.element('<div>').append(svg.clone()).html();
-                var svgHtml = window.btoa(unescape(encodeURIComponent(lvcomponent)));
-                var component;
-                var base = defaultSettings.base;
-                var _style = '';
-                if (params.avatarBorderStyle) {
-                    _style = params.avatarBorderStyle;
-                } else if (params.avatardefaultBorder) {
-                    _style = params.defaultBorder;
-                }
+   var svg = getImgTag(params.width, params.height, color);
+   svg.append(cobj);
+   var lvcomponent = angular.element('<div>').append(svg.clone()).html();
+   var svgHtml = window.btoa(unescape(encodeURIComponent(lvcomponent)));
+   var component;
+   var base = defaultSettings.base;
+   var _style = '';
+   if (params.avatarBorderStyle) {
+    _style = params.avatarBorderStyle;
+   } else if (params.avatardefaultBorder) {
+    _style = params.defaultBorder;
+   }
 
-                if (params.shape) {
-                    if (params.shape === 'round') {
-                        var round_style = defaultSettings.radius + _style;
-                        component = "<img src=" + base + svgHtml + " style='" + round_style + "' />";
-                    }
-                } else {
-                    component = "<img src=" + base + svgHtml + " style='" + _style + "' />";
-                }
-                element.replaceWith(component);
-            }
-        };
-    }]);
+   if (params.shape) {
+    if (params.shape === 'round') {
+     var round_style = defaultSettings.radius + _style;
+     component = "<img src=" + base + svgHtml + " style='" + round_style + "' />";
+    }
+   } else {
+    component = "<img src=" + base + svgHtml + " style='" + _style + "' />";
+   }
+   element.replaceWith(component);
+  }
+ };
+}]);
 
 /**
- * Get the random colors 
+ * Get the random colors
  * @returns {String}
  */
+// function getRandomColors() {
+//  var letters = '0123456789ABCDEF'.split('');
+//  var _color = '#';
+//  for (var i = 0; i < 6; i++) {
+//   _color += letters[Math.floor(Math.random() * 16)];
+//  }
+//  return _color;
+// }
+
 function getRandomColors() {
-    var letters = '0123456789ABCDEF'.split('');
-    var _color = '#';
-    for (var i = 0; i < 6; i++) {
-        _color += letters[Math.floor(Math.random() * 16)];
-    }
-    return _color;
+  var _color;
+  var _index;
+  var colors = [
+    "#f44336",
+    "#e91e63",
+    "#9c27b0",
+    "#673ab7",
+    "#3f51b5",
+    "#2196f3",
+    "#03a9f4",
+    "#00bcd4",
+    "#009688",
+    "#4caf50",
+    "#8bc34a",
+    "#cddc39",
+    "#ffeb3b",
+    "#ffc107",
+    "#ff9800",
+    "#ff5722"
+  ];
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  _index = getRandomInt(0, 31);
+  _color = colors[_index];
+
+  return _color;
 }
+
 /**
  * get the first name and last name first letters and combined and form the letter avatar
  * @param {type} data
  * @returns {unresolved}
  */
 function getFirstAndLastName(data) {
-    var names = data.split(" ");
-    if (names && names.length >= 2) {
-        var firstName = names[0];
-        var lastName = names[1];
-        if (firstName && lastName) {
-            var text = firstName.substr(0, 1) + lastName.substr(0, 1);
-            return text;
-        } else {
-            return data.substr(0, 2);
-        }
-    }
+ var names = data.split(" ");
+ if (names && names.length >= 2) {
+  var firstName = names[0];
+  var lastName = names[1];
+  if (firstName && lastName) {
+   var text = firstName.substr(0, 1) + lastName.substr(0, 1);
+   return text;
+  } else {
+   return data.substr(0, 2);
+  }
+ }
 }
 
 /**
@@ -148,20 +198,20 @@ function getFirstAndLastName(data) {
  */
 function getImgTag(width, height, color) {
 
-    var svgTag = angular.element('<svg></svg>')
-            .attr({
-                'xmlns': 'http://www.w3.org/2000/svg',
-                'pointer-events': 'none',
-                'width': width,
-                'height': height
-            })
-            .css({
-                'background-color': color,
-                'width': width + 'px',
-                'height': height + 'px'
-            });
+ var svgTag = angular.element('<svg></svg>')
+  .attr({
+   'xmlns': 'http://www.w3.org/2000/svg',
+   'pointer-events': 'none',
+   'width': width,
+   'height': height
+  })
+  .css({
+   'background-color': color,
+   'width': width + 'px',
+   'height': height + 'px'
+  });
 
-    return svgTag;
+ return svgTag;
 }
 
 /**
@@ -174,22 +224,21 @@ function getImgTag(width, height, color) {
  * @returns {unresolved}
  */
 function getCharacterObject(character, textColor, fontFamily, fontWeight, fontsize) {
-    var textTag = angular.element('<text text-anchor="middle"></text>')
-            .attr({
-                'y': '50%',
-                'x': '50%',
-                'dy': '0.35em',
-                //'stroke': '#000000',
-                'pointer-events': 'auto',
-                'fill': textColor,
-                'font-family': fontFamily
-            })
-            .html(character)
-            .css({
-                'font-weight': fontWeight,
-                'font-size': fontsize + 'px',
-            });
+ var textTag = angular.element('<text text-anchor="middle"></text>')
+  .attr({
+   'y': '50%',
+   'x': '50%',
+   'dy': '0.35em',
+   //'stroke': '#000000',
+   'pointer-events': 'auto',
+   'fill': textColor,
+   'font-family': fontFamily
+  })
+  .html(character)
+  .css({
+   'font-weight': fontWeight,
+   'font-size': fontsize + 'px',
+  });
 
-    return textTag;
+ return textTag;
 }
-
