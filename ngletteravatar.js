@@ -28,7 +28,7 @@ nla.constant('defaultSettings', {
   "#ff5722"
  ],
  textColor: '#ffffff',
- defaultBorder: 'border:5px solid white',
+ defaultBorder: 'border: 2px solid #e91e63',
  triangleup: 'width: 0;height: 0;border-left: 50px solid transparent;border-right: 50px solid transparent;border-bottom: 100px solid;',
  fontsize: 30, // unit in pixels
  height: 50, // unit in pixels
