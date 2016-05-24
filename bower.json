@@ -1,20 +1,20 @@
 {
   "name": "ng-letter-avatar",
- 	"main": "./ngletteravatar.js",
-	"version": "4.0.2",
-	"keywords": [
-		"angular",
-		"ngletteravatar",
-		"letteravatar",
-		"gmaillikelettericon",
-		"letterimage"
-	],
-	"ignore": [
-        "demo",
-        "app.js",
-        "index.html"
-    ],
-	  "dependencies": {
-		"angular": "*"
-	  }
+  "main": "./ngletteravatar.js",
+  "version": "4.0.3",
+  "keywords": [
+    "angular",
+    "ngletteravatar",
+    "letteravatar",
+    "gmaillikelettericon",
+    "letterimage"
+  ],
+  "ignore": [
+    "demo",
+    "app.js",
+    "index.html"
+  ],
+  "dependencies": {
+    "angular": "*"
+  }
 }
