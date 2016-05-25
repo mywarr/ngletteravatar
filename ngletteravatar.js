@@ -22,7 +22,6 @@ nla.constant('defaultSettings', {
   "#4caf50",
   "#8bc34a",
   "#cddc39",
-  "#ffeb3b",
   "#ffc107",
   "#ff9800",
   "#ff5722"
